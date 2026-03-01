@@ -1,6 +1,6 @@
 import { JobQueue } from '../../../src/models/jobQueue';
 import { WorkerQueue } from '../../../src/workers/workerQueue';
-import { pendingEmailJob, pendingTaskJob } from './mocks/jobsForWorkers';
+import { createPendingEmailJob, createPendingTaskJob } from './mocks/jobsForWorkers';
 
 describe('WorkerQueue', () => {
   let queue: JobQueue;
@@ -8,8 +8,8 @@ describe('WorkerQueue', () => {
 
   beforeEach(() => {
     queue = new JobQueue();
-    queue.addJob(pendingEmailJob);
-    queue.addJob(pendingTaskJob);
+    queue.addJob(createPendingEmailJob());
+    queue.addJob(createPendingTaskJob());
     workerQueue = new WorkerQueue(queue, 2);
   });
 

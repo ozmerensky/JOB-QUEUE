@@ -1,6 +1,6 @@
 import { JobQueue } from '../../../src/models/jobQueue';
 import { Worker } from '../../../src/workers/worker';
-import { pendingEmailJob, pendingTaskJob } from './mocks/jobsForWorkers';
+import { createPendingEmailJob, createPendingTaskJob } from './mocks/jobsForWorkers';
 
 describe('Worker', () => {
   let queue: JobQueue;
@@ -12,6 +12,7 @@ describe('Worker', () => {
   });
 
   it('should process a single email job', () => {
+    const pendingEmailJob = createPendingEmailJob();
     queue.addJob(pendingEmailJob);
     const job = worker.processNextJob();
 
@@ -20,6 +21,7 @@ describe('Worker', () => {
   });
 
   it('should process a single task job', () => {
+    const pendingTaskJob = createPendingTaskJob();
     queue.addJob(pendingTaskJob);
     const job = worker.processNextJob();
 
