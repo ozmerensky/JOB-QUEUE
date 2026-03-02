@@ -6,16 +6,24 @@ export const createJob = (overrides: Partial<Job> = {}): Job => ({
   type: 'email',
   payload: { to: 'test@example.com' },
   status: 'pending',
+  retriesLeft: 0,
   createdAt: new Date(),
   updatedAt: new Date(),
   ...overrides,
 });
 
-export const createPendingEmailJob = (overrides: Partial<Job> = {}) =>
-  createJob({ type: 'email', status: 'pending', ...overrides });
 
-export const createPendingTaskJob = (overrides: Partial<Job> = {}) =>
-  createJob({ type: 'task', payload: { taskName: 'Do something' }, status: 'pending', ...overrides });
+export const createPendingEmailJob = (overrides: Partial<Job> = {}): Job =>
+  createJob({ type: 'email', status: 'pending', retriesLeft: 3, ...overrides });
 
-export const createCompletedJob = (overrides: Partial<Job> = {}) =>
-  createJob({ status: 'completed', ...overrides });
+export const createPendingTaskJob = (overrides: Partial<Job> = {}): Job =>
+  createJob({
+    type: 'task',
+    payload: { taskName: 'Do something' },
+    status: 'pending',
+    retriesLeft: 2,
+    ...overrides,
+  });
+
+export const createCompletedJob = (overrides: Partial<Job> = {}): Job =>
+  createJob({ status: 'completed', retriesLeft: 0, ...overrides });

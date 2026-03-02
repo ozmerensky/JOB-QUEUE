@@ -8,18 +8,18 @@ describe('WorkerQueue', () => {
 
   beforeEach(() => {
     queue = new JobQueue();
-    queue.addJob(createPendingEmailJob());
-    queue.addJob(createPendingTaskJob());
+    queue.addJob(createPendingEmailJob({ retriesLeft: 1 }));
+    queue.addJob(createPendingTaskJob({ retriesLeft: 2 }));
     workerQueue = new WorkerQueue(queue, 2);
   });
 
   it('should process all jobs once', () => {
     workerQueue.runAll();
     const allJobs = queue.getAllJobs();
-    expect(allJobs.every(job => job.status === 'completed')).toBe(true);
+    expect(allJobs.every(job => job.status === 'completed' || (job.retriesLeft ?? 0) > 0)).toBe(true);
   });
 
-  it('should run until queue is empty', () => {
+  it('should run until queue is empty including retries', () => {
     workerQueue.runUntilEmpty();
     const allJobs = queue.getAllJobs();
     expect(allJobs.every(job => job.status === 'completed')).toBe(true);

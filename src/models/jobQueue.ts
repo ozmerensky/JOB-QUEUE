@@ -13,13 +13,34 @@ export class JobQueue {
 
   updateJobStatus(jobId: string, status: Job['status']) {
     const job = this.queue.find(j => j.id === jobId);
-    if (job) {
-      job.status = status;
-      job.updatedAt = new Date();
+    if (!job) return;
+
+    if (status === 'completed') {
+      job.status = 'completed';
     }
+
+    if (status === 'failed') {
+      if ((job.retriesLeft ?? 0) > 0) {
+        job.retriesLeft!--;
+
+        if (job.retriesLeft > 0) {
+          job.status = 'pending';
+        } else {
+          job.status = 'failed';
+        }
+      } else {
+        job.retriesLeft = 0;
+        job.status = 'failed';
+      }
+    }
+
+    job.updatedAt = new Date();
   }
 
   getAllJobs(): Job[] {
     return this.queue;
   }
 }
+
+
+

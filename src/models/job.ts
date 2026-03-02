@@ -5,4 +5,5 @@ export interface Job {
   status: 'pending' | 'in-progress' | 'completed' | 'failed';
   createdAt: Date;
   updatedAt: Date;
+  retriesLeft: number;
 }

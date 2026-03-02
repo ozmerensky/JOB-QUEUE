@@ -20,13 +20,25 @@ describe('Worker', () => {
     expect(queue.getAllJobs()[0].status).toBe('completed');
   });
 
-  it('should process a single task job', () => {
-    const pendingTaskJob = createPendingTaskJob();
-    queue.addJob(pendingTaskJob);
-    const job = worker.processNextJob();
+  it('should retry a failing job if retriesLeft > 0', () => {
+    const job = createPendingEmailJob({ type: 'fail', retriesLeft: 2 });
+    queue.addJob(job);
 
-    expect(job).toBe(pendingTaskJob);
-    expect(queue.getAllJobs()[0].status).toBe('completed');
+    worker.processNextJob();
+
+    const updatedJob = queue.getAllJobs()[0];
+    expect(updatedJob.status).toBe('pending');
+    expect(updatedJob.retriesLeft).toBe(1);
+  });
+
+  it('should mark failing job as failed if retriesLeft is 0', () => {
+    const job = createPendingEmailJob({ type: 'fail', retriesLeft: 0 });
+    queue.addJob(job);
+
+    worker.processNextJob();
+
+    const updatedJob = queue.getAllJobs()[0];
+    expect(updatedJob.status).toBe('failed');
   });
 
   it('should return undefined if no pending job', () => {
