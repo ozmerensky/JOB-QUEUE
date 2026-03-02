@@ -2,13 +2,9 @@ import { JobQueue } from '../models/jobQueue';
 import { Job } from '../models/job';
 
 export class Worker {
-  private queue: JobQueue;
+  constructor(private queue: JobQueue) {}
 
-  constructor(queue: JobQueue) {
-    this.queue = queue;
-  }
-
-  public processNextJob(): Job | undefined {
+  processNextJob(): Job | undefined {
     const job = this.queue.getNextJob();
     if (!job) return undefined;
 
@@ -20,15 +16,18 @@ export class Worker {
         case 'task':
           console.log(`Performing task ${job.payload.taskName}`);
           break;
+        case 'fail':
+          console.log(`Simulating failure for job ${job.id}`);
+          throw new Error('Job failed intentionally');
         default:
           console.log(`Unknown job type: ${job.type}`);
       }
 
-      this.queue.updateJobStatus(job.id, 'completed');
-      return job;
+      job.status = 'completed';
     } catch (err) {
-      console.error(`Failed to process job ${job.id}:`, err);
-      return undefined;
+      job.status = 'failed';
     }
+
+    return job;
   }
 }

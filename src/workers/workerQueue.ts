@@ -7,7 +7,6 @@ export class WorkerQueue {
 
   constructor(queue: JobQueue, workerCount = 2) {
     this.queue = queue;
-
     for (let i = 0; i < workerCount; i++) {
       this.workers.push(new Worker(this.queue));
     }
@@ -21,7 +20,6 @@ export class WorkerQueue {
 
   public runUntilEmpty(): void {
     let jobsLeft = this.queue.getAllJobs().some(job => job.status === 'pending');
-
     while (jobsLeft) {
       this.runAll();
       jobsLeft = this.queue.getAllJobs().some(job => job.status === 'pending');
