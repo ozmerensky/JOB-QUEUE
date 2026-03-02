@@ -23,7 +23,6 @@ export class JobQueue {
       if ((job.retriesLeft ?? 0) > 0) {
         job.retriesLeft!--;
 
-        // 🔥 הכי חשוב – בדיקה אחרי decrement
         if (job.retriesLeft > 0) {
           job.status = 'pending';
         } else {

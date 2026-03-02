@@ -30,11 +30,9 @@ export class Worker {
           throw new Error(`Unknown job type: ${job.type}`);
       }
 
-      // ✅ worker רק מדווח הצלחה
       this.queue.updateJobStatus(job.id, 'completed');
 
     } catch (err) {
-      // ✅ worker רק מדווח failure
       this.queue.updateJobStatus(job.id, 'failed');
     }
 
