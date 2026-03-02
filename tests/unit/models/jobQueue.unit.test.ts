@@ -1,5 +1,5 @@
 import { JobQueue } from '../../../src/models/jobQueue';
-import { createPendingJob, createCompletedJob } from './mockes/jobs';
+import { createPendingEmailJob, createCompletedJob } from '../../factories/job.factory';
 
 describe('JobQueue', () => {
   let queue: JobQueue;
@@ -9,14 +9,14 @@ describe('JobQueue', () => {
   });
 
   it('should add a job', () => {
-    const job = createPendingJob();
+    const job = createPendingEmailJob();
     queue.addJob(job);
     expect(queue.getAllJobs()).toContain(job);
   });
 
   it('should get next pending job', () => {
-    const job1 = createPendingJob('1');
-    const job2 = createCompletedJob('2');
+    const job1 = createPendingEmailJob();
+    const job2 = createCompletedJob();
     queue.addJob(job1);
     queue.addJob(job2);
     const nextJob = queue.getNextJob();
@@ -24,7 +24,7 @@ describe('JobQueue', () => {
   });
 
   it('should update job status', () => {
-    const job = createPendingJob('1');
+    const job = createPendingEmailJob();
     queue.addJob(job);
     queue.updateJobStatus(job.id, 'completed');
     expect(queue.getNextJob()).toBeUndefined();

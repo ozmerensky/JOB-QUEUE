@@ -1,6 +1,6 @@
 import { JobQueue } from '../../../src/models/jobQueue';
 import { WorkerQueue } from '../../../src/workers/workerQueue';
-import { createPendingEmailJob, createPendingTaskJob } from './mocks/jobsForWorkers';
+import { createPendingEmailJob, createPendingTaskJob } from '../../factories/job.factory';
 
 describe('WorkerQueue', () => {
   let queue: JobQueue;
