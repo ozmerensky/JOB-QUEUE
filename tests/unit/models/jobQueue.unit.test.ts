@@ -31,7 +31,6 @@ describe('JobQueue', () => {
     expect(queue.getAllJobs()[0].status).toBe('completed');
   });
 
-  // ✅ בדיקה ש-job שמסומן כ-failed עם retriesLeft > 0 חוזר ל-pending ומקטין retriesLeft
   it('should decrement retriesLeft when a job fails', () => {
     const job = createPendingEmailJob({ retriesLeft: 2 });
     queue.addJob(job);
@@ -43,7 +42,6 @@ describe('JobQueue', () => {
     expect(updatedJob.retriesLeft).toBe(1);
   });
 
-  // ✅ בדיקה ש-job שמגיע ל-0 retries מסומן כ-failed
   it('should mark job as failed when retriesLeft reaches 0', () => {
     const job = createPendingEmailJob({ retriesLeft: 1 });
     queue.addJob(job);

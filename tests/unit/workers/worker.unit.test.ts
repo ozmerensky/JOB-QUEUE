@@ -11,7 +11,6 @@ describe('Worker', () => {
     worker = new Worker(queue);
   });
 
-  // ✅ בדיקה שהוורקר מעבד job מסוג email ומסמן אותו כ-completed
   it('should process a single email job', () => {
     const pendingEmailJob = createPendingEmailJob();
     queue.addJob(pendingEmailJob);
@@ -21,7 +20,6 @@ describe('Worker', () => {
     expect(queue.getAllJobs()[0].status).toBe('completed');
   });
 
-  // ✅ בדיקה שהוורקר מנסה retry כאשר job נכשל ויש retriesLeft
   it('should retry a failing job if retriesLeft > 0', () => {
     const job = createPendingEmailJob({ type: 'fail', retriesLeft: 2 });
     queue.addJob(job);
@@ -33,7 +31,6 @@ describe('Worker', () => {
     expect(updatedJob.retriesLeft).toBe(1);
   });
 
-  // ✅ בדיקה שהוורקר מסמן job כ-failed כאשר אין retriesLeft
   it('should mark failing job as failed if retriesLeft is 0', () => {
     const job = createPendingEmailJob({ type: 'fail', retriesLeft: 0 });
     queue.addJob(job);
@@ -44,7 +41,6 @@ describe('Worker', () => {
     expect(updatedJob.status).toBe('failed');
   });
 
-  // ✅ בדיקה שהוורקר מחזיר undefined כאשר אין job ממתין
   it('should return undefined if no pending job', () => {
     const result = worker.processNextJob();
     expect(result).toBeUndefined();

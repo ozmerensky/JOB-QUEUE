@@ -13,14 +13,12 @@ describe('WorkerQueue', () => {
     workerQueue = new WorkerQueue(queue, 2);
   });
 
-  // ✅ בדיקה שכל ה-jobs מעובדים (או שיש להם retriesLeft)
   it('should process all jobs once', () => {
     workerQueue.runAll();
     const allJobs = queue.getAllJobs();
     expect(allJobs.every(job => job.status === 'completed' || (job.retriesLeft ?? 0) > 0)).toBe(true);
   });
 
-  // ✅ בדיקה שהריצה ממשיכה עד שה queue ריקה כולל retries
   it('should run until queue is empty including retries', () => {
     workerQueue.runUntilEmpty();
     const allJobs = queue.getAllJobs();
