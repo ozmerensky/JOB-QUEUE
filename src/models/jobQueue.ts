@@ -8,7 +8,14 @@ export class JobQueue {
   }
 
   getNextJob(): Job | undefined {
-    return this.queue.find(job => job.status === 'pending');
+    const pendingJobs = this.queue.filter(job => job.status === 'pending');
+    if (pendingJobs.length === 0) return undefined;
+
+    return pendingJobs.reduce((highest, current) => {
+      const highestPriority = highest.priority ?? 0;
+      const currentPriority = current.priority ?? 0;
+      return currentPriority > highestPriority ? current : highest;
+    });
   }
 
   updateJobStatus(jobId: string, status: Job['status']) {
@@ -41,6 +48,3 @@ export class JobQueue {
     return this.queue;
   }
 }
-
-
-

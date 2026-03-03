@@ -6,4 +6,5 @@ export interface Job {
   createdAt: Date;
   updatedAt: Date;
   retriesLeft: number;
+  priority?: number;
 }

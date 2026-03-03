@@ -3,7 +3,7 @@ import { JobQueue } from '../../../src/models/jobQueue';
 import { WorkerQueue } from '../../../src/workers/workerQueue';
 import { createJob } from '../../factories/job.factory';
 
-describe('WorkerQueue Integration with retries', () => {
+describe('WorkerQueue Integration with retries and priorities', () => {
   let jobQueue: JobQueue;
   let workerQueue: WorkerQueue;
 
@@ -18,7 +18,7 @@ describe('WorkerQueue Integration with retries', () => {
   beforeEach(async () => {
     await clearDB();
     jobQueue = new JobQueue();
-    workerQueue = new WorkerQueue(jobQueue);
+    workerQueue = new WorkerQueue(jobQueue, 2);
   });
 
   it('should process a single email job successfully', () => {
@@ -74,5 +74,17 @@ describe('WorkerQueue Integration with retries', () => {
     const failJob = all.find(j => j.type === 'fail');
     expect(failJob?.status).toBe('failed');
     expect(failJob?.retriesLeft).toBe(0);
+  });
+
+  it('should process higher priority jobs first', () => {
+    const low = createJob({ type: 'email', retriesLeft: 1, priority: 1 });
+    const high = createJob({ type: 'task', retriesLeft: 1, priority: 5 });
+    jobQueue.addJob(low);
+    jobQueue.addJob(high);
+
+    const nextJob = workerQueue['workers'][0].processNextJob();
+
+    expect(nextJob?.id).toBe(high.id);
+    expect(nextJob?.status).toBe('completed');
   });
 });
