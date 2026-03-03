@@ -9,12 +9,12 @@ export const createJob = (overrides: Partial<Job> = {}): Job => ({
   retriesLeft: 0,
   createdAt: new Date(),
   updatedAt: new Date(),
+  priority: 0,
   ...overrides,
 });
 
-
 export const createPendingEmailJob = (overrides: Partial<Job> = {}): Job =>
-  createJob({ type: 'email', status: 'pending', retriesLeft: 3, ...overrides });
+  createJob({ type: 'email', status: 'pending', retriesLeft: 3, priority: 1, ...overrides });
 
 export const createPendingTaskJob = (overrides: Partial<Job> = {}): Job =>
   createJob({
@@ -22,8 +22,9 @@ export const createPendingTaskJob = (overrides: Partial<Job> = {}): Job =>
     payload: { taskName: 'Do something' },
     status: 'pending',
     retriesLeft: 2,
+    priority: 1,
     ...overrides,
   });
 
 export const createCompletedJob = (overrides: Partial<Job> = {}): Job =>
-  createJob({ status: 'completed', retriesLeft: 0, ...overrides });
+  createJob({ status: 'completed', retriesLeft: 0, priority: 0, ...overrides });
