@@ -1,59 +1,92 @@
-# Job Queue
+# Job Queue System
 
 A job queue system that manages and processes tasks efficiently with priority-based execution and automatic retry capabilities.
 
-## Features
+## License
 
-- **Priority-Based Processing**: Tasks are executed based on priority levels, ensuring important work gets done first
-- **Automatic Retries**: Failed tasks can be automatically retried without manual intervention
-- **Multiple Worker Support**: Multiple workers can process tasks in parallel for better throughput
-- **Job Status Tracking**: Keep track of task states including pending, completed, and failed
-- **Reliable**: Thoroughly tested to ensure consistent and dependable operation
+MIT License (see LICENSE in this repository)
 
-## Installation
+## Repository Structure
 
-### Requirements
+| Folder / File         | Description                                        |
+|-----------------------|----------------------------------------------------|
+| src/models/           | Job and JobQueue data models                       |
+| src/workers/          | Worker and WorkerQueue classes                     |
+| tests/                | Unit and integration tests                         |
+| package.json          | Project dependencies and scripts                   |
+| jest.config.js        | Jest testing configuration                         |
 
-- Node.js 18 or newer
-- npm or yarn package manager
+## Quick Start
 
-### Setup Steps
+Clone the repository:
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd job-queue
-   ```
+```bash
+git clone https://github.com/ozmerensky/JOB-QUEUE.git
+cd job-queue
+```
 
-2. Install dependencies:
+## Setup
+
+1. Install dependencies:
+
    ```bash
    npm install
    ```
 
-That's it! You're ready to go.
+2. Run tests:
+
+   ```bash
+   npm test
+   ```
+
+3. Start the system:
+
+   ```bash
+   npm start
+   ```
+
+## Features
+
+- Priority-Based Processing: Tasks are executed based on priority levels
+- Automatic Retries: Failed tasks can be automatically retried
+- Multiple Worker Support: Multiple workers can process tasks in parallel
+- Job Status Tracking: Keep track of task states (pending, completed, failed)
+- In-Memory Storage: Uses in-memory MongoDB for fast, CI-friendly testing
 
 ## Testing
 
-This project includes comprehensive test coverage to ensure reliability:
+This project includes comprehensive test coverage:
 
-- **Unit Tests**: Individual components are tested in isolation to verify they work correctly
-- **Integration Tests**: Complete workflows are tested to ensure all parts work together properly
-- **High Coverage**: Most of the codebase is covered by tests, catching bugs early (35 tests, ~98% coverage)
-- **In-Memory Database**: Tests use a temporary in-memory database, so no external setup is needed
+- Unit Tests: Individual components tested in isolation
+- Integration Tests: Complete workflows tested
+- High Coverage: ~98% code coverage (35 tests)
+- In-Memory Database: No external setup required
 
-The extensive testing ensures the system works as expected and handles edge cases properly.
+Run tests:
 
-## Continuous Integration (CI)
+```bash
+npm test
+```
 
-This project uses GitHub Actions to automatically test and validate every code change:
+## CI (Continuous Integration)
 
-- **Automated Testing**: Tests run automatically on every push and pull request
-- **Coverage Reporting**: Test coverage is measured and recorded with each run
-- **Node.js 18**: Tests run on Node.js 18 to ensure compatibility
-- **Quality Assurance**: Failed tests prevent code from being merged, maintaining code quality
+GitHub Actions automatically test and validate every code change:
 
-The CI workflow ensures code reliability and catches issues early in the development process.
+- Automated testing on push and pull requests
+- Coverage reporting included
+- Runs on Node.js 18
+- Failing tests prevent merging to main branch
 
-## License
+## Important Files
 
-MIT
+- `src/models/jobQueue.ts` — Job queue management and storage
+- `src/workers/worker.ts` — Individual job processing logic
+- `src/workers/workerQueue.ts` — Worker orchestration and management
+- `tests/` — Unit and integration test files
+
+## Notes
+
+- Built with TypeScript for type safety
+- Uses Jest for testing framework
+- In-memory MongoDB for testing (no external database needed)
+- Designed for automation engineering workflows
