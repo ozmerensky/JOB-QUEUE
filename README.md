@@ -39,12 +39,6 @@ cd job-queue
    npm test
    ```
 
-3. Start the system:
-
-   ```bash
-   npm start
-   ```
-
 ## Features
 
 - Priority-Based Processing: Tasks are executed based on priority levels
