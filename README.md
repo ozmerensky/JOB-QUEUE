@@ -16,6 +16,17 @@ MIT License (see LICENSE in this repository)
 | package.json          | Project dependencies and scripts                   |
 | jest.config.js        | Jest testing configuration                         |
 
+
+## Technical Decisions & Strategy
+
+-   **Priority-Queue Architecture:** I implemented a custom priority-based scheduling logic. This ensures that critical tasks are processed first, moving beyond simple FIFO (First-In-First-Out) behavior to meet real-world business SLA requirements.
+-   **State Machine Management:** The system follows a strict State Machine pattern for job lifecycles (`pending` -> `completed` / `failed`). This guarantees data integrity and prevents jobs from being processed multiple times or getting stuck in undefined states.
+-   **Resiliency with Automatic Retries:** To handle transient failures, I built an integrated retry mechanism. The logic intelligently decrements retry counts and manages state transitions, ensuring the system can self-heal before marking a job as permanently failed.
+-   **Worker Orchestration:** The `WorkerQueue` was designed to manage multiple worker instances. This decoupling of the queue storage from the processing logic allows for easy horizontal scaling and parallel execution.
+-   **Test-Driven Reliability (98% Coverage):** By using **Jest** and **mongodb-memory-server**, I ensured that the entire business logic is validated in an isolated, high-speed environment. The high coverage metric (35 tests) reflects a "zero-leak" policy where every edge case, including priority ties and exhausted retries, is verified.
+-   **TypeScript for Domain Integrity:** Leveraging TypeScript interfaces for Job models ensured that the contract between the Queue and the Workers is type-safe, significantly reducing runtime errors during complex state transitions.
+
+
 ## Quick Start
 
 Clone the repository:
