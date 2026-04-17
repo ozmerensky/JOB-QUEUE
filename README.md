@@ -89,6 +89,11 @@ GitHub Actions automatically test and validate every code change:
 - `src/workers/workerQueue.ts` — Worker orchestration and management
 - `tests/` — Unit and integration test files
 
+
+## AI Workflow Detail:
+ Leveraged LLMs to simulate race conditions and edge cases in the priority logic, and used AI-driven debugging to refine the State Machine transitions and retry mechanisms. This approach ensured that the system is robust under high load and can gracefully handle failure scenarios, which are often difficult to replicate in traditional testing environments.
+
+
 ## Notes
 
 - Built with TypeScript for type safety
