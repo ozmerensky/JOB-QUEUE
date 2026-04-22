@@ -77,9 +77,9 @@ npm test
 
 GitHub Actions automatically test and validate every code change:
 
-- Automated testing on push and pull requests
+- Automated testing on push and pull requests to the main branch
 - Coverage reporting included
-- Runs on Node.js 18
+- Runs on Node.js 20
 - Failing tests prevent merging to main branch
 
 ## Important Files
