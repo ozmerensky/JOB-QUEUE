@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/express": "^5.0.6",
     "express": "^5.2.1",
-    "mongoose": "^9.2.3",
+    "mongoose": "^9.7.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   },
@@ -30,6 +30,6 @@
     "form-data": "^4.0.6",
     "js-yaml": "^4.3.0",
     "body-parser": "^2.3.0",
-    "brace-expansion": "^2.1.2"
+    "brace-expansion": "^5.0.8"
   }
 }
